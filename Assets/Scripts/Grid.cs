@@ -7,12 +7,14 @@ public class Grid {
     private int height;
     private float cellSize;
     private int[,] gridArray;
+    private Vector3 originPosition;
 
-    public Grid(int width, int height, float cellSize) {
+    public Grid(int width, int height, float cellSize, Vector3 originPosition) {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
         this.gridArray = new int[width,height];
+        this.originPosition = originPosition;
         
 
         for (int x = 0; x < width; x++) {
@@ -25,9 +27,24 @@ public class Grid {
         Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
     }
 
-
+    private void GetXY(Vector3 worldPosition, out int x, out int y) {
+        worldPosition -= originPosition;
+        x = Mathf.FloorToInt(worldPosition.x / cellSize);
+        y = Mathf.FloorToInt(worldPosition.y / cellSize);
+    }
 
     private Vector3 GetWorldPosition(int x, int y) {
-        return new Vector3(x, y) * cellSize;
+        return new Vector3(x, y) * cellSize + originPosition;
+    }
+
+    public void SetValue(Vector3 worldPosition, int value) {
+        GetXY(worldPosition, out int x, out int y);
+        SetValue(x, y, value);
+    }
+
+    public void SetValue(int x, int y, int value) {
+        if (x >= 0 && y >= 0 && x < width && y < height) {
+            gridArray[x, y] = value;
+        }
     }
 }
