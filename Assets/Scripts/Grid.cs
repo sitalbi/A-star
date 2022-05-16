@@ -19,22 +19,22 @@ public class Grid {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x, y + 1), Color.white, 100f);
-                Debug.DrawLine(GetWorldPosition(x, y), GetWorldPosition(x + 1, y), Color.white, 100f);
+                Debug.DrawLine(GetPosition(x, y), GetPosition(x, y + 1), Color.white, 100f);
+                Debug.DrawLine(GetPosition(x, y), GetPosition(x + 1, y), Color.white, 100f);
                 gridArray[x, y] = new Node(this, x, y);
             }
         }
-        Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
-        Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
+        Debug.DrawLine(GetPosition(0, height), GetPosition(width, height), Color.white, 100f);
+        Debug.DrawLine(GetPosition(width, 0), GetPosition(width, height), Color.white, 100f);
     }
 
-    private void GetXY(Vector3 worldPosition, out int x, out int y) {
+    public void GetXY(Vector3 worldPosition, out int x, out int y) {
         worldPosition -= originPosition;
         x = Mathf.FloorToInt(worldPosition.x / nodeSize);
         y = Mathf.FloorToInt(worldPosition.y / nodeSize);
     }
 
-    private Vector3 GetWorldPosition(int x, int y) {
+    public Vector3 GetPosition(int x, int y) {
         return new Vector3(x, y) * nodeSize + originPosition;
     }
 

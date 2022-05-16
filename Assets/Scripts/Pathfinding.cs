@@ -6,6 +6,10 @@ public class Pathfinding
 {
     private Grid grid;
 
+    public Grid GetGrid() {
+        return grid;
+    }
+
     public Pathfinding(int width, int height, Vector3 origin) {
         new Grid(width, height, 10f, origin);
     }
