@@ -69,4 +69,13 @@ public class Heap
     public bool HeapIsEmpty() {
         return n == 0;
     }
+
+    public bool HeapContains(Node node) {
+        for(int i = 1; i<n; i++) {
+            if(array[i].Equals(node)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

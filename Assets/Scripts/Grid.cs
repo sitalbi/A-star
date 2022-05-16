@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Grid {
-    private int width;
-    private int height;
+    public int width;
+    public int height;
     private float nodeSize;
     private Node[,] gridArray;
     private Vector3 originPosition;
@@ -40,6 +40,41 @@ public class Grid {
 
     public Node GetNode(int x, int y) {
         return gridArray[x, y];
+    }
+
+    public List<Node> GetNeighbourList(Node node) {
+        List<Node> neighbourList = new List<Node>();
+
+        //Left
+        if(node.x-1 >= 0) {
+            neighbourList.Add(GetNode(node.x-1, node.y));
+            if(node.y+1<this.height) {
+                neighbourList.Add(GetNode(node.x - 1, node.y + 1));
+            }
+            if (node.y -1 >= 0) {
+                neighbourList.Add(GetNode(node.x - 1, node.y -1));
+            }
+        }
+        //Right
+        if(node.x + 1 < this.width) {
+            neighbourList.Add(GetNode(node.x + 1, node.y));
+            if (node.y + 1 < this.height) {
+                neighbourList.Add(GetNode(node.x + 1, node.y + 1));
+            }
+            if (node.y - 1 >= 0) {
+                neighbourList.Add(GetNode(node.x + 1, node.y - 1));
+            }
+        }
+        //Up
+        if(node.y - 1 >= 0) {
+            neighbourList.Add(GetNode(node.x, node.y - 1));
+        }
+        //Down
+        if (node.y + 1 < this.height) {
+            neighbourList.Add(GetNode(node.x, node.y + 1));
+        }
+
+        return neighbourList;
     }
 
     public void SetValue(Vector3 worldPosition, Node value) {

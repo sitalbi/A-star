@@ -25,4 +25,18 @@ public class Node
     public void CalculateScore() {
         score = hCost + gCost;
     }
+
+     //Override the Equals function
+     public override bool Equals(object obj) {
+        // If the passed object is null
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj is Node)) {
+            return false;
+        }
+        return (this.x == ((Node)obj).x)
+            && (this.y == ((Node)obj).y);
+    }
 }
+

@@ -14,17 +14,39 @@ public class Pathfinding
         Node startNode = grid.GetNode((int)start.x, (int)start.y);
         Node endNode = grid.GetNode((int)end.x, (int)end.y);
 
-        List<Node> Q = new List<Node>();
-        List<Node> P = new List<Node>();
+        Heap Q = new Heap(grid.width * grid.height);
+        Heap P = new Heap(grid.width * grid.height);
 
-        Q.Add(startNode);
+        Q.HeapAdd(startNode);
 
         startNode.gCost = 0;
         startNode.hCost = DistanceHeuristic(startNode, endNode);
         startNode.CalculateScore();
 
-        while(Q.Count > 0) {
-            
+        while (!Q.HeapIsEmpty()) {
+            Node u = Q.HeapPop();
+
+            if (u.Equals(endNode)) {
+                // return path using parents
+                List<Node> path = new List<Node>();
+                while(u.parent!=null) {
+                    path.Add(u);
+                    u = u.parent;
+                }
+            }
+
+            P.HeapAdd(u);
+            foreach(Node node in grid.GetNeighbourList(u)) {
+                if(!P.HeapContains(node)) {
+                    if(!Q.HeapContains(node)) {
+                        Q.HeapAdd(node);
+                    } else if(node.gCost<=u.gCost) {
+                        node.gCost = u.gCost;
+                        node.parent = u;
+                        node.CalculateScore();
+                    }
+                }
+            }
         }
 
         return null;
