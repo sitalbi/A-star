@@ -10,24 +10,25 @@ public class Pathfinding
         return grid;
     }
 
-    public Pathfinding(int width, int height, Vector3 origin) {
-        new Grid(width, height, 10f, origin);
+    public Pathfinding(int width, int height) {
+        grid = new Grid(width, height, 10f);
     }
 
-    public List<Node> FindPath(Vector3 start, Vector3 end) {
-        Node startNode = grid.GetNode((int)start.x, (int)start.y);
-        Node endNode = grid.GetNode((int)end.x, (int)end.y);
+    public List<Node> FindPath(int x1, int y1, int x2, int y2) {
+        Node startNode = grid.GetNode(x1, y1);
+        Node endNode = grid.GetNode(x2, y2);
 
         Heap Q = new Heap(grid.width * grid.height);
         Heap P = new Heap(grid.width * grid.height);
 
         Q.HeapAdd(startNode);
-
+        Debug.Log("startNode added");
         startNode.gCost = 0;
         startNode.hCost = DistanceHeuristic(startNode, endNode);
         startNode.CalculateScore();
 
         while (!Q.HeapIsEmpty()) {
+            Debug.Log("inside the while loop");
             Node u = Q.HeapPop();
 
             if (u.Equals(endNode)) {
@@ -46,6 +47,7 @@ public class Pathfinding
                         Q.HeapAdd(node);
                     } else if(node.gCost<=u.gCost) {
                         node.gCost = u.gCost;
+                        node.hCost = DistanceHeuristic(node, endNode);
                         node.parent = u;
                         node.CalculateScore();
                     }

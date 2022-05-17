@@ -7,14 +7,12 @@ public class Grid {
     public int height;
     private float nodeSize;
     private Node[,] gridArray;
-    private Vector3 originPosition;
 
-    public Grid(int width, int height, float nodeSize, Vector3 originPosition) {
+    public Grid(int width, int height, float nodeSize) {
         this.width = width;
         this.height = height;
         this.nodeSize = nodeSize;
         this.gridArray = new Node[width,height];
-        this.originPosition = originPosition;
         
 
         for (int x = 0; x < width; x++) {
@@ -29,17 +27,20 @@ public class Grid {
     }
 
     public void GetXY(Vector3 worldPosition, out int x, out int y) {
-        worldPosition -= originPosition;
         x = Mathf.FloorToInt(worldPosition.x / nodeSize);
         y = Mathf.FloorToInt(worldPosition.y / nodeSize);
     }
 
     public Vector3 GetPosition(int x, int y) {
-        return new Vector3(x, y) * nodeSize + originPosition;
+        return new Vector3(x, y) * nodeSize;
     }
 
     public Node GetNode(int x, int y) {
-        return gridArray[x, y];
+        if((x<width && y<height) && (x>=0 && y>=0)) {
+            return gridArray[x, y];
+        } else {
+            return null;
+        }
     }
 
     public List<Node> GetNeighbourList(Node node) {

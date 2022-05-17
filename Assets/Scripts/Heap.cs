@@ -10,6 +10,7 @@ public class Heap
     public Heap(int nmax) {
         this.n = 0;
         this.nmax = nmax;
+        array = new Node[nmax];
     }
 
     public int ComparisonFunction(Node a, Node b) {
@@ -20,17 +21,15 @@ public class Heap
      *  Add a Node to the heap
     */
     public void HeapAdd(Node node) {
-        if(this.n<this.nmax) {
-            this.n++;
+        if(n+1<nmax) {
+            n++;
             array[n] = node;
 
             int k = n;
             while (k>1 && ComparisonFunction(node, array[((int)(k/2))]) < 0) {
                 //swap
-                Node tmp = array[k];
-                array[k] = array[k/2];
-                array[k/2] = tmp;
-                k = k/2;
+                (array[k], array[k/2]) = (array[k/2], array[k]);
+                k /= 2;
             }
         }
     }
