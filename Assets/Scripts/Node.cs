@@ -12,14 +12,16 @@ public class Node
     public int hCost; // heuristic (distance from end node)
     public int gCost; // distance from start node
     public int score; // hCost + gCost
+    public bool isWalkable;
 
-    public Node(Grid grid, int x, int y) {
+    public Node(Grid grid, int x, int y, bool isWalkable) {
         this.x = x;
         this.y = y;
         this.grid = grid;
         this.gCost = int.MaxValue;
         CalculateScore();
         this.parent = null;
+        this.isWalkable = isWalkable;
     }
 
     public void CalculateScore() {

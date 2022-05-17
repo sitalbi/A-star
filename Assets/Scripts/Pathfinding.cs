@@ -22,40 +22,54 @@ public class Pathfinding
         Heap P = new Heap(grid.width * grid.height);
 
         Q.HeapAdd(startNode);
-        Debug.Log("startNode added");
         startNode.gCost = 0;
         startNode.hCost = DistanceHeuristic(startNode, endNode);
         startNode.CalculateScore();
 
         while (!Q.HeapIsEmpty()) {
-            Debug.Log("inside the while loop");
             Node u = Q.HeapPop();
 
             if (u.Equals(endNode)) {
                 // return path using parents
                 List<Node> path = new List<Node>();
+                path.Add(endNode);
                 while(u.parent!=null) {
-                    path.Add(u);
+                    path.Add(u.parent);
                     u = u.parent;
                 }
+                path.Reverse();
+                return path;
             }
 
             P.HeapAdd(u);
+            
             foreach(Node node in grid.GetNeighbourList(u)) {
+                if (!node.isWalkable) {
+                    P.HeapAdd(node);
+                }
                 if(!P.HeapContains(node)) {
-                    if(!Q.HeapContains(node)) {
-                        Q.HeapAdd(node);
-                    } else if(node.gCost<=u.gCost) {
-                        node.gCost = u.gCost;
-                        node.hCost = DistanceHeuristic(node, endNode);
+                    int newCost = u.gCost + DistanceCost(u, node);
+                    if (newCost < node.gCost) {
                         node.parent = u;
+                        node.gCost = newCost;
+                        node.hCost = DistanceHeuristic(node, endNode);
                         node.CalculateScore();
+                        
+                        if(!Q.HeapContains(node)) {
+                            Q.HeapAdd(node);
+                        }
                     }
                 }
             }
         }
-
         return null;
+    }
+
+    private int DistanceCost(Node a, Node b) {
+        int xdist = Mathf.Abs(a.x - b.x);
+        int ydist = Mathf.Abs(a.y - b.y);
+        int r = Mathf.Abs(xdist - ydist);
+        return 14 * Mathf.Min(xdist, ydist) + 10 * r;
     }
 
     private int DistanceHeuristic(Node a, Node b) {

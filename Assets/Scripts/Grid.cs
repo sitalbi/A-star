@@ -12,14 +12,14 @@ public class Grid {
         this.width = width;
         this.height = height;
         this.nodeSize = nodeSize;
-        this.gridArray = new Node[width,height];
+        gridArray = new Node[width,height];
         
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 Debug.DrawLine(GetPosition(x, y), GetPosition(x, y + 1), Color.white, 100f);
                 Debug.DrawLine(GetPosition(x, y), GetPosition(x + 1, y), Color.white, 100f);
-                gridArray[x, y] = new Node(this, x, y);
+                gridArray[x, y] = new Node(this, x, y, true);
             }
         }
         Debug.DrawLine(GetPosition(0, height), GetPosition(width, height), Color.white, 100f);
