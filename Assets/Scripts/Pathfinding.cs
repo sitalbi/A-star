@@ -71,7 +71,8 @@ public class Pathfinding
         int xdist = Mathf.Abs(a.x - b.x);
         int ydist = Mathf.Abs(a.y - b.y);
         int r = Mathf.Abs(xdist - ydist);
-        return 14 * Mathf.Min(xdist, ydist) + 10 * r;
+        // diagonal movement cost more than vertical or horizontal movement
+        return 2 * Mathf.Min(xdist, ydist) + r;
     }
 
     private int DistanceHeuristic(Node a, Node b) {

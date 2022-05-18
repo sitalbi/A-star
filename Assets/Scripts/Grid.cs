@@ -22,7 +22,9 @@ public class Grid {
             for (int y = 0; y < height; y++) {
                 Debug.DrawLine(GetPosition(x, y), GetPosition(x, y + 1), Color.white, 100f);
                 Debug.DrawLine(GetPosition(x, y), GetPosition(x + 1, y), Color.white, 100f);
-                bool isWalkable = tilemap.GetTile<Tile>(new Vector3Int(x, y, 0)).name != "square2";
+                
+                // check the name of the non-walkable tiles
+                bool isWalkable = tilemap.GetTile<Tile>(new Vector3Int(x, y, 0)).name != "wall";
                 gridArray[x, y] = new Node(this, x, y, isWalkable);
             }
         }
