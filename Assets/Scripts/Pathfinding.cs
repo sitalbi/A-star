@@ -44,19 +44,21 @@ public class Pathfinding
             P.HeapAdd(u);
             
             foreach(Node node in grid.GetNeighbourList(u)) {
-                if (!node.isWalkable) {
-                    P.HeapAdd(node);
-                }
                 if(!P.HeapContains(node)) {
-                    int newCost = u.gCost + DistanceCost(u, node);
-                    if (newCost < node.gCost) {
-                        node.parent = u;
-                        node.gCost = newCost;
-                        node.hCost = DistanceHeuristic(node, endNode);
-                        node.CalculateScore();
+                    if (!node.isWalkable) {
+                        P.HeapAdd(node);
+                    }
+                    else {
+                        int newCost = u.gCost + DistanceCost(u, node);
+                        if (newCost < node.gCost) {
+                            node.parent = u;
+                            node.gCost = newCost;
+                            node.hCost = DistanceHeuristic(node, endNode);
+                            node.CalculateScore();
                         
-                        if(!Q.HeapContains(node)) {
-                            Q.HeapAdd(node);
+                            if(!Q.HeapContains(node)) {
+                                Q.HeapAdd(node);
+                            }
                         }
                     }
                 }

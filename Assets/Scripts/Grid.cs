@@ -1,25 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Grid {
     public int width;
     public int height;
     private float nodeSize;
     private Node[,] gridArray;
+    private Tilemap tilemap;
 
     public Grid(int width, int height, float nodeSize) {
         this.width = width;
         this.height = height;
         this.nodeSize = nodeSize;
         gridArray = new Node[width,height];
+        tilemap = GameObject.Find("Grid/Tilemap").GetComponent<Tilemap>();
         
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 Debug.DrawLine(GetPosition(x, y), GetPosition(x, y + 1), Color.white, 100f);
                 Debug.DrawLine(GetPosition(x, y), GetPosition(x + 1, y), Color.white, 100f);
-                gridArray[x, y] = new Node(this, x, y, true);
+                bool isWalkable = tilemap.GetTile<Tile>(new Vector3Int(x, y, 0)).name != "square2";
+                gridArray[x, y] = new Node(this, x, y, isWalkable);
             }
         }
         Debug.DrawLine(GetPosition(0, height), GetPosition(width, height), Color.white, 100f);

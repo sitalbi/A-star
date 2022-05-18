@@ -21,7 +21,7 @@ public class Heap
      *  Add a Node to the heap
     */
     public void HeapAdd(Node node) {
-        if(n+1<nmax) {
+        if(n+1<nmax && !HeapContains(node)) {
             n++;
             array[n] = node;
 
@@ -69,6 +69,9 @@ public class Heap
         return n == 0;
     }
 
+    /**
+     * Check if the heap contains a node
+    */
     public bool HeapContains(Node node) {
         for(int i = 1; i<n; i++) {
             if(array[i].Equals(node)) {

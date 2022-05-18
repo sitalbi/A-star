@@ -3,7 +3,10 @@ guid: 30de5a046e55f6a47b1b1e235007254c
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - tilemap: {fileID: 1075990673701804298, guid: 39323a6fc7d6354439131e35566fc866,
+      type: 3}
+  - obstacleTile: {fileID: 11400000, guid: 07ddb4f92dd8bfb4a94c242422569a2c, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
