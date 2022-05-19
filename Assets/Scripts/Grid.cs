@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -20,16 +19,20 @@ public class Grid {
 
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                Debug.DrawLine(GetPosition(x, y), GetPosition(x, y + 1), Color.white, 100f);
-                Debug.DrawLine(GetPosition(x, y), GetPosition(x + 1, y), Color.white, 100f);
+                /* To use if you want to see the grid on the screen
+                    Debug.DrawLine(GetPosition(x, y), GetPosition(x, y + 1), Color.white, 100f);
+                    Debug.DrawLine(GetPosition(x, y), GetPosition(x + 1, y), Color.white, 100f);
+                */
                 
-                // check the name of the non-walkable tiles
+                // find the non-walkable tile by their name
                 bool isWalkable = tilemap.GetTile<Tile>(new Vector3Int(x, y, 0)).name != "wall";
                 gridArray[x, y] = new Node(this, x, y, isWalkable);
             }
         }
-        Debug.DrawLine(GetPosition(0, height), GetPosition(width, height), Color.white, 100f);
-        Debug.DrawLine(GetPosition(width, 0), GetPosition(width, height), Color.white, 100f);
+        /* To use if you want to see the grid on the screen
+            Debug.DrawLine(GetPosition(0, height), GetPosition(width, height), Color.white, 100f);
+            Debug.DrawLine(GetPosition(width, 0), GetPosition(width, height), Color.white, 100f);
+        */
     }
 
     public void GetXY(Vector3 worldPosition, out int x, out int y) {
@@ -44,12 +47,11 @@ public class Grid {
     public Node GetNode(int x, int y) {
         if((x<width && y<height) && (x>=0 && y>=0)) {
             return gridArray[x, y];
-        } else {
-            return null;
         }
+        return null;
     }
 
-    public List<Node> GetNeighbourList(Node node) {
+    public List<Node> GetNeighboursList(Node node) {
         List<Node> neighbourList = new List<Node>();
 
         //Left
@@ -82,16 +84,5 @@ public class Grid {
         }
 
         return neighbourList;
-    }
-
-    public void SetValue(Vector3 worldPosition, Node value) {
-        GetXY(worldPosition, out int x, out int y);
-        SetValue(x, y, value);
-    }
-
-    public void SetValue(int x, int y, Node value) {
-        if (x >= 0 && y >= 0 && x < width && y < height) {
-            gridArray[x, y] = value;
-        }
     }
 }

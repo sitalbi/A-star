@@ -21,7 +21,8 @@ public class Main : MonoBehaviour
             List<Node> path = pathfinding.FindPath(0, 0, x, y);
             if(path!=null) {
                 for(int i = 0; i<path.Count-1;i++) {
-                    Debug.DrawLine(new Vector3(path[i].x, path[i].y) * 10f + Vector3.one * 5f, new Vector3(path[i + 1].x, path[i + 1].y) * 10f + Vector3.one * 5f, Color.green, 100f);
+                    // Draw the result path
+                    Debug.DrawLine(new Vector3(path[i].x, path[i].y) * 10f + Vector3.one * 5f, new Vector3(path[i + 1].x, path[i + 1].y) * 10f + Vector3.one * 5f, Color.red,  5f);
                 }
             }
         }
@@ -29,13 +30,8 @@ public class Main : MonoBehaviour
     
     // Get Mouse position 
     public Vector3 GetMouseWorldPosition() {
-        Vector3 pos = GetMouse3DWorldPosition(Input.mousePosition, Camera.main);
-        pos.z = 0f;
-        return pos;
-    }
-
-    private Vector3 GetMouse3DWorldPosition(Vector3 screenPosition, Camera camera) {
-        Vector3 worldPosition = camera.ScreenToWorldPoint(screenPosition);
-        return worldPosition;
+        Vector3 position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        position.z = 0f;
+        return position;
     }
 }

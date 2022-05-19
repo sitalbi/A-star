@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Pathfinding
@@ -15,6 +14,7 @@ public class Pathfinding
     }
 
     public List<Node> FindPath(int x1, int y1, int x2, int y2) {
+        ClearNodes();
         Node startNode = grid.GetNode(x1, y1);
         Node endNode = grid.GetNode(x2, y2);
 
@@ -28,7 +28,7 @@ public class Pathfinding
 
         while (!Q.HeapIsEmpty()) {
             Node u = Q.HeapPop();
-
+            
             if (u.Equals(endNode)) {
                 // return path using parents
                 List<Node> path = new List<Node>();
@@ -43,7 +43,7 @@ public class Pathfinding
 
             P.HeapAdd(u);
             
-            foreach(Node node in grid.GetNeighbourList(u)) {
+            foreach(Node node in grid.GetNeighboursList(u)) {
                 if(!P.HeapContains(node)) {
                     if (!node.isWalkable) {
                         P.HeapAdd(node);
@@ -79,5 +79,15 @@ public class Pathfinding
         int xdist = Mathf.Abs(a.x - b.x);
         int ydist = Mathf.Abs(a.y - b.y);
         return Mathf.Abs(xdist - ydist);
+    }
+
+    private void ClearNodes() {
+        for (int x = 0; x < grid.width; x++) {
+            for (int y = 0; y < grid.height; y++) {
+                grid.GetNode(x,y).gCost = int.MaxValue;
+                grid.GetNode(x,y).CalculateScore();
+                grid.GetNode(x,y).parent = null;
+            }
+        }
     }
 }
