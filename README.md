@@ -1,5 +1,5 @@
 # A-star
-A-star pathfinding algorithm implementation in Unity (using version 2019.3.5). Working for 2D projects only.
+A-star pathfinding algorithm implementation in Unity (using version 2019.3.5) created to learn both pathfinding and Unity. Working for 2D projects only.
 
 This algorithm is optimized using a minimum binary heap data structure. The starting point of the path is the point of coordinate (0,0).
 
